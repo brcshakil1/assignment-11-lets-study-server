@@ -29,6 +29,24 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const allAssignmentCollection = client
+      .db("letsStudyDB")
+      .collection("all-assignments");
+
+    // get all assignments
+    app.get("/api/v1/all-assignments", async (req, res) => {
+      const cursor = allAssignmentCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.post("/api/v1/create-assignment", async (req, res) => {
+      const createdAssignment = req.body;
+      console.log(createdAssignment);
+      const result = await allAssignmentCollection.insertOne(createdAssignment);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

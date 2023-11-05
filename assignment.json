@@ -1,164 +1,92 @@
 [
   {
+    "title": "Assignment 1",
+    "image": "assignment1.jpg",
+    "description": "Complete the first assignment in the course. This assignment covers various topics from the course material and includes both theoretical questions and practical exercises. Make sure to submit your work by the deadline. Good luck!",
+    "marks": 100,
+    "difficulty": "easy",
+    "date": "2023-11-10",
+    "creatorEmail": "shakil@gmail.com"
+  },
+  {
     "title": "Math Homework",
-    "description": "Solve the given math problems.",
-    "totalMarks": 100,
-    "thumbnailImageUrl": "https://example.com/math-thumbnail.jpg",
+    "image": "math_assignment.png",
+    "description": "Solve the math problems for this week's homework. The problems include algebra, geometry, and calculus questions. You have one week to complete the assignment, so manage your time effectively. Remember to show all your work for full credit.",
+    "marks": 50,
     "difficulty": "medium",
-    "dueDate": "2023-12-10",
-    "userEmail": "shakil@gmail.com"
+    "date": "2023-11-15",
+    "creatorEmail": "shakil@gmail.com"
   },
   {
-    "title": "Literature Essay",
-    "description": "Write an essay on a given literary work.",
-    "totalMarks": 80,
-    "thumbnailImageUrl": "https://example.com/literature-thumbnail.jpg",
-    "difficulty": "hard",
-    "dueDate": "2023-11-20",
-    "userEmail": "shakil@gmail.com"
-  },
-  {
-    "title": "Programming Challenge",
-    "description": "Solve programming problems in your preferred language.",
-    "totalMarks": 90,
-    "thumbnailImageUrl": "https://example.com/programming-thumbnail.jpg",
-    "difficulty": "hard",
-    "dueDate": "2023-12-15",
-    "userEmail": "shakil@gmail.com"
-  },
-  {
-    "title": "Biology Assignment",
-    "description": "Research and write about a biological topic of your choice.",
-    "totalMarks": 80,
-    "thumbnailImageUrl": "https://example.com/biology-thumbnail.jpg",
+    "title": "History Essay",
+    "image": "history_essay.jpg",
+    "description": "Write an essay on a historical topic of your choice. Your essay should be well-researched and properly cited. You have the creative freedom to explore any era or event in history. This assignment is designed to encourage critical thinking and historical analysis.",
+    "marks": 75,
     "difficulty": "medium",
-    "dueDate": "2023-11-25",
-    "userEmail": "shakil@gmail.com"
+    "date": "2023-11-20",
+    "creatorEmail": "shakil@gmail.com"
+  },
+  {
+    "title": "Science Project",
+    "image": "science_project.png",
+    "description": "Work on a group science project about ecosystems. You'll be conducting fieldwork to study local ecosystems, collect data, and present your findings in a final report. This project is a collaborative effort and will require effective communication and teamwork.",
+    "marks": 90,
+    "difficulty": "hard",
+    "date": "2023-11-25",
+    "creatorEmail": "arif@gmail.com"
+  },
+  {
+    "title": "Programming Assignment",
+    "image": "programming_assignment.png",
+    "description": "Write a program to solve a specific problem. You will be working with a programming language of your choice, and your code should be well-documented and efficient. This assignment tests your coding skills and problem-solving abilities.",
+    "marks": 80,
+    "difficulty": "easy",
+    "date": "2023-12-01",
+    "creatorEmail": "arif@gmail.com"
+  },
+  {
+    "title": "Literature Analysis",
+    "image": "literature_analysis.jpg",
+    "description": "Analyze a piece of literature and write a report. You can choose a novel, poem, or short story to analyze. Your report should include a detailed analysis of themes, characters, and literary devices used in the selected work.",
+    "marks": 70,
+    "difficulty": "easy",
+    "date": "2023-12-05",
+    "creatorEmail": "arif@gmail.com"
+  },
+  {
+    "title": "Physics Quiz",
+    "image": "physics_quiz.png",
+    "description": "Take an online quiz on physics concepts. The quiz will cover topics such as mechanics, electromagnetism, and thermodynamics. You have a limited time to complete the quiz, so be prepared.",
+    "marks": 40,
+    "difficulty": "hard",
+    "date": "2023-12-10",
+    "creatorEmail": "shahid@gmail.com"
   },
   {
     "title": "Art Project",
-    "description": "Create an art project with a specific theme.",
-    "totalMarks": 70,
-    "thumbnailImageUrl": "https://example.com/art-thumbnail.jpg",
+    "image": "art_project.jpg",
+    "description": "Create an art project based on a specific theme. You can choose your preferred medium, such as painting, sculpture, or digital art. This project allows you to express your creativity and artistic abilities.",
+    "marks": 85,
+    "difficulty": "medium",
+    "date": "2023-12-15",
+    "creatorEmail": "shahid@gmail.com"
+  },
+  {
+    "title": "Chemistry Experiment",
+    "image": "chemistry_experiment.png",
+    "description": "Conduct a chemistry experiment and document the results. You will be working in a controlled laboratory environment, following safety protocols. The experiment focuses on chemical reactions and their outcomes.",
+    "marks": 60,
     "difficulty": "easy",
-    "dueDate": "2023-12-01",
-    "userEmail": "shakil@gmail.com"
+    "date": "2023-12-20",
+    "creatorEmail": "shahid@gmail.com"
   },
   {
-    "title": "Physics Problem Set",
-    "description": "Solve physics problems from a textbook chapter.",
-    "totalMarks": 80,
-    "thumbnailImageUrl": "https://example.com/physics-thumbnail.jpg",
-    "difficulty": "medium",
-    "dueDate": "2023-11-30",
-    "userEmail": "arif@gmail.com"
-  },
-  {
-    "title": "Geography Research",
-    "description": "Conduct research on a specific geographic region.",
-    "totalMarks": 80,
-    "thumbnailImageUrl": "https://example.com/geography-thumbnail.jpg",
+    "title": "Geography Assignment",
+    "image": "geography_assignment.jpg",
+    "description": "Complete a geography assignment on world capitals. You will be researching and providing information on the capitals of various countries around the world. This assignment helps improve your geographical knowledge.",
+    "marks": 55,
     "difficulty": "hard",
-    "dueDate": "2023-12-08",
-    "userEmail": "arif@gmail.com"
-  },
-  {
-    "title": "Economics Presentation",
-    "description": "Prepare and deliver a presentation on an economic topic.",
-    "totalMarks": 60,
-    "thumbnailImageUrl": "https://example.com/economics-thumbnail.jpg",
-    "difficulty": "medium",
-    "dueDate": "2023-11-10",
-    "userEmail": "arif@gmail.com"
-  },
-  {
-    "title": "Language Learning Quiz",
-    "description": "Test your language skills with a quiz.",
-    "totalMarks": 60,
-    "thumbnailImageUrl": "https://example.com/language-thumbnail.jpg",
-    "difficulty": "easy",
-    "dueDate": "2023-11-22",
-    "userEmail": "shahid@gmail.com"
-  },
-  {
-    "title": "Music Composition",
-    "description": "Compose a piece of music on a given theme.",
-    "totalMarks": 70,
-    "thumbnailImageUrl": "https://example.com/music-thumbnail.jpg",
-    "difficulty": "hard",
-    "dueDate": "2023-12-12",
-    "userEmail": "shahid@gmail.com"
-  },
-  {
-    "title": "Environmental Science Project",
-    "description": "Create a project on an environmental science topic.",
-    "totalMarks": 70,
-    "thumbnailImageUrl": "https://example.com/environmental-thumbnail.jpg",
-    "difficulty": "medium",
-    "dueDate": "2023-11-27",
-    "userEmail": "shahid@gmail.com"
-  },
-  {
-    "title": "Psychology Case Study",
-    "description": "Analyze and write a case study on a psychological condition.",
-    "totalMarks": 100,
-    "thumbnailImageUrl": "https://example.com/psychology-thumbnail.jpg",
-    "difficulty": "hard",
-    "dueDate": "2023-12-05",
-    "userEmail": "shahid@gmail.com"
-  },
-  {
-    "title": "Computer Science Coding Challenge",
-    "description": "Solve coding challenges related to computer science concepts.",
-    "totalMarks": 100,
-    "thumbnailImageUrl": "https://example.com/computer-science-thumbnail.jpg",
-    "difficulty": "medium",
-    "dueDate": "2023-11-17",
-    "userEmail": "shahid@gmail.com"
-  },
-  {
-    "title": "Sociology Research Paper",
-    "description": "Write a research paper on a sociological topic.",
-    "totalMarks": 100,
-    "thumbnailImageUrl": "https://example.com/sociology-thumbnail.jpg",
-    "difficulty": "easy",
-    "dueDate": "2023-11-29",
-    "userEmail": "shahid@gmail.com"
-  },
-  {
-    "title": "Business Plan Proposal",
-    "description": "Create a proposal for a business plan.",
-    "totalMarks": 50,
-    "thumbnailImageUrl": "https://example.com/business-thumbnail.jpg",
-    "difficulty": "medium",
-    "dueDate": "2023-12-03",
-    "userEmail": "samad@gmail.com"
-  },
-  {
-    "title": "Political Science Debate",
-    "description": "Participate in a debate on a political science topic.",
-    "totalMarks": 50,
-    "thumbnailImageUrl": "https://example.com/political-science-thumbnail.jpg",
-    "difficulty": "hard",
-    "dueDate": "2023-12-14",
-    "userEmail": "samad@gmail.com"
-  },
-  {
-    "title": "Physical Education Workout Plan",
-    "description": "Create a workout plan for physical education.",
-    "totalMarks": 40,
-    "thumbnailImageUrl": "https://example.com/physical-education-thumbnail.jpg",
-    "difficulty": "medium",
-    "dueDate": "2023-12-20",
-    "userEmail": "samad@gmail.com"
-  },
-  {
-    "title": "Chemistry Quiz",
-    "description": "Test your knowledge of chemical reactions and elements.",
-    "totalMarks": 40,
-    "thumbnailImageUrl": "https://example.com/chemistry-quiz-thumbnail.jpg",
-    "difficulty": "easy",
-    "dueDate": "2023-11-24",
-    "userEmail": "samad@gmail.com"
+    "date": "2023-12-25",
+    "creatorEmail": "imran@gmail.com"
   }
 ]
