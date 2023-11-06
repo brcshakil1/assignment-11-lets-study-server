@@ -32,18 +32,82 @@ async function run() {
     const allAssignmentCollection = client
       .db("letsStudyDB")
       .collection("all-assignments");
+    const submittedAssignmentCollection = client
+      .db("letsStudyDB")
+      .collection("submitted-assignments");
 
     // get all assignments
+    // filter by difficulty
     app.get("/api/v1/all-assignments", async (req, res) => {
-      const cursor = allAssignmentCollection.find();
+      const difficulty = req.query.difficulty;
+      let query = {};
+
+      if (difficulty) {
+        query.difficulty = difficulty;
+      }
+      const cursor = allAssignmentCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    app.post("/api/v1/create-assignment", async (req, res) => {
-      const createdAssignment = req.body;
-      console.log(createdAssignment);
-      const result = await allAssignmentCollection.insertOne(createdAssignment);
+    // get all submitted assignment
+    app.get("/api/v1/user/all-submitted-assignment", async (req, res) => {
+      const status = req.query.status;
+      let query = {};
+
+      if (status === "pending") {
+        query.status = status;
+      }
+      const cursor = submittedAssignmentCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // create an assignment
+    app.post("/api/v1/user/create-assignment", async (req, res) => {
+      const assignment = req.body;
+      const result = await allAssignmentCollection.insertOne(assignment);
+      res.send(result);
+    });
+
+    // submitted a assignment
+    app.post("/api/v1/user/submitted-assignment", async (req, res) => {
+      const submittedAssignment = req.body;
+      const result = await submittedAssignmentCollection.insertOne(
+        submittedAssignment
+      );
+      res.send(result);
+    });
+
+    // get an assignment
+    app.get("/api/v1/all-assignments/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await allAssignmentCollection.findOne(query);
+      res.send(result);
+    });
+
+    // update an assignment
+    app.put("/api/v1/all-assignments/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedAssignment = req.body;
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          title: updatedAssignment.title,
+          image: updatedAssignment.image,
+          description: updatedAssignment.description,
+          marks: updatedAssignment.marks,
+          difficulty: updatedAssignment.difficulty,
+          date: updatedAssignment.date,
+        },
+      };
+      const result = await allAssignmentCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
       res.send(result);
     });
 

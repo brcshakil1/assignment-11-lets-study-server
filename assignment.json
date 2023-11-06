@@ -6,25 +6,28 @@
     "marks": 100,
     "difficulty": "easy",
     "date": "2023-11-10",
-    "creatorEmail": "shakil@gmail.com"
+    "name": "Shakil",
+    "email": "shakil@gmail.com"
   },
   {
     "title": "Math Homework",
-    "image": "math_assignment.png",
+    "image": "https://i.ibb.co/Pm5JcWY/math-homework.jpg",
     "description": "Solve the math problems for this week's homework. The problems include algebra, geometry, and calculus questions. You have one week to complete the assignment, so manage your time effectively. Remember to show all your work for full credit.",
     "marks": 50,
     "difficulty": "medium",
     "date": "2023-11-15",
-    "creatorEmail": "shakil@gmail.com"
+    "name": "Shakil",
+    "email": "shakil@gmail.com"
   },
   {
     "title": "History Essay",
-    "image": "history_essay.jpg",
+    "image": "https://i.ibb.co/Qv6ZJjq/80756.jpg",
     "description": "Write an essay on a historical topic of your choice. Your essay should be well-researched and properly cited. You have the creative freedom to explore any era or event in history. This assignment is designed to encourage critical thinking and historical analysis.",
     "marks": 75,
     "difficulty": "medium",
     "date": "2023-11-20",
-    "creatorEmail": "shakil@gmail.com"
+    "name": "Shakil",
+    "email": "shakil@gmail.com"
   },
   {
     "title": "Science Project",
@@ -33,7 +36,8 @@
     "marks": 90,
     "difficulty": "hard",
     "date": "2023-11-25",
-    "creatorEmail": "arif@gmail.com"
+    "name": "Arif",
+    "email": "arif@gmail.com"
   },
   {
     "title": "Programming Assignment",
@@ -42,7 +46,8 @@
     "marks": 80,
     "difficulty": "easy",
     "date": "2023-12-01",
-    "creatorEmail": "arif@gmail.com"
+    "name": "Arif",
+    "email": "arif@gmail.com"
   },
   {
     "title": "Literature Analysis",
@@ -51,7 +56,8 @@
     "marks": 70,
     "difficulty": "easy",
     "date": "2023-12-05",
-    "creatorEmail": "arif@gmail.com"
+    "name": "Arif",
+    "email": "arif@gmail.com"
   },
   {
     "title": "Physics Quiz",
@@ -60,16 +66,17 @@
     "marks": 40,
     "difficulty": "hard",
     "date": "2023-12-10",
-    "creatorEmail": "shahid@gmail.com"
+    "name": "Shahid",
+    "email": "shahid@gmail.com"
   },
   {
     "title": "Art Project",
-    "image": "art_project.jpg",
+    "image": "https://i.ibb.co/zZP504X/29174328-artist-1.jpg",
     "description": "Create an art project based on a specific theme. You can choose your preferred medium, such as painting, sculpture, or digital art. This project allows you to express your creativity and artistic abilities.",
     "marks": 85,
     "difficulty": "medium",
-    "date": "2023-12-15",
-    "creatorEmail": "shahid@gmail.com"
+    "name": "Shahid",
+    "email": "shahid@gmail.com"
   },
   {
     "title": "Chemistry Experiment",
@@ -77,8 +84,8 @@
     "description": "Conduct a chemistry experiment and document the results. You will be working in a controlled laboratory environment, following safety protocols. The experiment focuses on chemical reactions and their outcomes.",
     "marks": 60,
     "difficulty": "easy",
-    "date": "2023-12-20",
-    "creatorEmail": "shahid@gmail.com"
+    "name": "Shahid",
+    "email": "shahid@gmail.com"
   },
   {
     "title": "Geography Assignment",
@@ -87,6 +94,7 @@
     "marks": 55,
     "difficulty": "hard",
     "date": "2023-12-25",
-    "creatorEmail": "imran@gmail.com"
+    "name": "Shahid",
+    "email": "shahid@gmail.com"
   }
 ]
