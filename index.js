@@ -82,6 +82,12 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    // get all fqas
+    app.get("/api/v1/fqas", async (req, res) => {
+      const cursor = fqasCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     // get an assignment
     app.get("/api/v1/all-assignments/:id", async (req, res) => {
@@ -91,6 +97,14 @@ async function run() {
       res.send(result);
     });
 
+    // jwt
+    app.post("/api/v1/auth/jwt-token", (req, res) => {
+      // creating token and send to client
+      const user = req.body;
+      const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {});
+      console.log(user);
+      res.send({ success: true });
+    });
     // create an assignment
     app.post("/api/v1/user/create-assignment", async (req, res) => {
       const assignment = req.body;
