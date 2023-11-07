@@ -40,11 +40,17 @@ async function run() {
     // filter by difficulty
     app.get("/api/v1/all-assignments", async (req, res) => {
       const difficulty = req.query.difficulty;
+      const email = req.query.email;
       let query = {};
 
       if (difficulty) {
         query.difficulty = difficulty;
       }
+
+      if (email) {
+        query.examineeEmail = email;
+      }
+
       const cursor = allAssignmentCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
@@ -135,6 +141,14 @@ async function run() {
       );
       res.send(result);
       console.log(markingStatus);
+    });
+
+    // delete assignment operation
+    app.delete("/api/v1/all-assignments/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await allAssignmentCollection.deleteOne(query);
+      res.send(result);
     });
 
     // Send a ping to confirm a successful connection
