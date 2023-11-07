@@ -63,6 +63,14 @@ async function run() {
       res.send(result);
     });
 
+    // get an assignment
+    app.get("/api/v1/all-assignments/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await allAssignmentCollection.findOne(query);
+      res.send(result);
+    });
+
     // create an assignment
     app.post("/api/v1/user/create-assignment", async (req, res) => {
       const assignment = req.body;
@@ -76,14 +84,6 @@ async function run() {
       const result = await submittedAssignmentCollection.insertOne(
         submittedAssignment
       );
-      res.send(result);
-    });
-
-    // get an assignment
-    app.get("/api/v1/all-assignments/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await allAssignmentCollection.findOne(query);
       res.send(result);
     });
 
@@ -109,6 +109,27 @@ async function run() {
         options
       );
       res.send(result);
+    });
+    // update submitted assignment
+    app.put("/api/v1/user/all-submitted-assignment/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const markingStatus = req.body;
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          obtainMarks: markingStatus.obtainMarks,
+          feedback: markingStatus.feedback,
+          status: markingStatus.status,
+        },
+      };
+      const result = await submittedAssignmentCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send(result);
+      console.log(markingStatus);
     });
 
     // Send a ping to confirm a successful connection
