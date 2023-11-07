@@ -1,6 +1,8 @@
 // import libraries and middleware
 const express = require("express");
 const cors = require("cors");
+var jwt = require("jsonwebtoken");
+var cookieParser = require("cookie-parser");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
@@ -9,7 +11,13 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 
 // mongodb
 
@@ -38,6 +46,24 @@ async function run() {
     const featuresCollection = client.db("letsStudyDB").collection("features");
     const fqasCollection = client.db("letsStudyDB").collection("fqas");
 
+    // middleware
+
+    const jwtVerifier = async (req, res, next) => {
+      const { token } = req.cookies;
+      // if client does not send token
+      if (!token) {
+        return res.status(401).send({ message: "Unauthorized" });
+      }
+      // verify a token
+      jwt.verify(token, process.env.ACCESS_SECRET_TOKEN, (err, decoded) => {
+        if (err) {
+          return res.status(401).send({ message: "Unauthorized" });
+        }
+        req.user = decoded;
+        next();
+      });
+    };
+
     // get all assignments
     // filter by difficulty
     app.get("/api/v1/all-assignments", async (req, res) => {
@@ -59,22 +85,34 @@ async function run() {
     });
 
     // get all submitted assignment
-    app.get("/api/v1/user/all-submitted-assignment", async (req, res) => {
-      const status = req.query.status;
-      const email = req.query.email;
-      let query = {};
-      console.log(email);
-      if (status === "pending") {
-        query.status = status;
-      }
+    app.get(
+      "/api/v1/user/all-submitted-assignment",
+      jwtVerifier,
+      async (req, res) => {
+        const status = req.query.status;
+        const email = req.query.email;
+        const tokenEmail = req.user.email;
+        console.log("eeeeeeeeeemail", tokenEmail);
 
-      if (email) {
-        query.examineeEmail = email;
+        // // check if user email and token email does not match
+        // if (email !== tokenEmail) {
+        //   return res.status(403).send({ message: "Forbidden access" });
+        // }
+
+        let query = {};
+        console.log(email);
+        if (status === "pending") {
+          query.status = status;
+        }
+
+        if (email) {
+          query.examineeEmail = email;
+        }
+        const cursor = submittedAssignmentCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
       }
-      const cursor = submittedAssignmentCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
-    });
+    );
 
     // get all features
     app.get("/api/v1/features", async (req, res) => {
@@ -90,7 +128,7 @@ async function run() {
     });
 
     // get an assignment
-    app.get("/api/v1/all-assignments/:id", async (req, res) => {
+    app.get("/api/v1/all-assignments/:id", jwtVerifier, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await allAssignmentCollection.findOne(query);
@@ -101,28 +139,42 @@ async function run() {
     app.post("/api/v1/auth/jwt-token", (req, res) => {
       // creating token and send to client
       const user = req.body;
-      const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {});
-      console.log(user);
-      res.send({ success: true });
+      const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {
+        expiresIn: "1h",
+      });
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: false,
+        })
+        .send({ success: true });
     });
     // create an assignment
-    app.post("/api/v1/user/create-assignment", async (req, res) => {
-      const assignment = req.body;
-      const result = await allAssignmentCollection.insertOne(assignment);
-      res.send(result);
-    });
+    app.post(
+      "/api/v1/user/create-assignment",
+      jwtVerifier,
+      async (req, res) => {
+        const assignment = req.body;
+        const result = await allAssignmentCollection.insertOne(assignment);
+        res.send(result);
+      }
+    );
 
     // submitted a assignment
-    app.post("/api/v1/user/submitted-assignment", async (req, res) => {
-      const submittedAssignment = req.body;
-      const result = await submittedAssignmentCollection.insertOne(
-        submittedAssignment
-      );
-      res.send(result);
-    });
+    app.post(
+      "/api/v1/user/submitted-assignment",
+      jwtVerifier,
+      async (req, res) => {
+        const submittedAssignment = req.body;
+        const result = await submittedAssignmentCollection.insertOne(
+          submittedAssignment
+        );
+        res.send(result);
+      }
+    );
 
     // update an assignment
-    app.put("/api/v1/all-assignments/:id", async (req, res) => {
+    app.put("/api/v1/all-assignments/:id", jwtVerifier, async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const updatedAssignment = req.body;
