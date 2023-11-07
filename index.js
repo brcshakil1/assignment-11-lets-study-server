@@ -36,6 +36,7 @@ async function run() {
       .db("letsStudyDB")
       .collection("submitted-assignments");
     const featuresCollection = client.db("letsStudyDB").collection("features");
+    const fqasCollection = client.db("letsStudyDB").collection("fqas");
 
     // get all assignments
     // filter by difficulty
