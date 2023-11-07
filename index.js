@@ -53,10 +53,15 @@ async function run() {
     // get all submitted assignment
     app.get("/api/v1/user/all-submitted-assignment", async (req, res) => {
       const status = req.query.status;
+      const email = req.query.email;
       let query = {};
-
+      console.log(email);
       if (status === "pending") {
         query.status = status;
+      }
+
+      if (email) {
+        query.examineeEmail = email;
       }
       const cursor = submittedAssignmentCollection.find(query);
       const result = await cursor.toArray();
