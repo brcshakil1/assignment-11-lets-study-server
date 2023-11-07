@@ -35,6 +35,7 @@ async function run() {
     const submittedAssignmentCollection = client
       .db("letsStudyDB")
       .collection("submitted-assignments");
+    const featuresCollection = client.db("letsStudyDB").collection("features");
 
     // get all assignments
     // filter by difficulty
@@ -48,7 +49,7 @@ async function run() {
       }
 
       if (email) {
-        query.examineeEmail = email;
+        query.email = email;
       }
 
       const cursor = allAssignmentCollection.find(query);
@@ -70,6 +71,13 @@ async function run() {
         query.examineeEmail = email;
       }
       const cursor = submittedAssignmentCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // get all features
+    app.get("/api/v1/features", async (req, res) => {
+      const cursor = featuresCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
