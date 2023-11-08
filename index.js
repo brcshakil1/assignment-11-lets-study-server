@@ -1,8 +1,7 @@
 // import libraries and middleware
 const express = require("express");
 const cors = require("cors");
-var jwt = require("jsonwebtoken");
-var cookieParser = require("cookie-parser");
+
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
@@ -11,13 +10,7 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    credentials: true,
-  })
-);
-app.use(cookieParser());
+app.use(cors());
 
 // mongodb
 
@@ -45,24 +38,6 @@ async function run() {
       .collection("submitted-assignments");
     const featuresCollection = client.db("letsStudyDB").collection("features");
     const fqasCollection = client.db("letsStudyDB").collection("fqas");
-
-    // middleware
-
-    const jwtVerifier = async (req, res, next) => {
-      const { token } = req.cookies;
-      // if client does not send token
-      if (!token) {
-        return res.status(401).send({ message: "Unauthorized" });
-      }
-      // verify a token
-      jwt.verify(token, process.env.ACCESS_SECRET_TOKEN, (err, decoded) => {
-        if (err) {
-          return res.status(401).send({ message: "Unauthorized" });
-        }
-        req.user = decoded;
-        next();
-      });
-    };
 
     // get all assignments
     // filter by difficulty
@@ -149,20 +124,6 @@ async function run() {
       res.send(result);
     });
 
-    // jwt
-    app.post("/api/v1/auth/jwt-token", (req, res) => {
-      // creating token and send to client
-      const user = req.body;
-      const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, {
-        expiresIn: "1h",
-      });
-      res
-        .cookie("token", token, {
-          httpOnly: true,
-          secure: false,
-        })
-        .send({ success: true });
-    });
     // create an assignment
     app.post(
       "/api/v1/user/create-assignment",
