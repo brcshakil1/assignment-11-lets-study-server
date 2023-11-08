@@ -120,6 +120,14 @@ async function run() {
       res.send(result);
     });
 
+    // get a submitted assignment
+    app.get("/api/v1/user/all-submitted-assignment/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await submittedAssignmentCollection.findOne(query);
+      res.send(result);
+    });
+
     // get all features
     app.get("/api/v1/features", async (req, res) => {
       const cursor = featuresCollection.find();
