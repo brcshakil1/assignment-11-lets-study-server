@@ -79,40 +79,46 @@ async function run() {
         query.email = email;
       }
 
-      const cursor = allAssignmentCollection.find(query);
+      // pagination
+      const page = Number(req.query.page);
+      const limit = Number(req.query.limit);
+      const skip = (page - 1) * limit;
+
+      const cursor = allAssignmentCollection
+        .find(query)
+        .skip(skip)
+        .limit(limit);
+      const countAssignment =
+        await allAssignmentCollection.estimatedDocumentCount();
       const result = await cursor.toArray();
-      res.send(result);
+      res.send({ result, countAssignment });
     });
 
     // get all submitted assignment
-    app.get(
-      "/api/v1/user/all-submitted-assignment",
-      jwtVerifier,
-      async (req, res) => {
-        const status = req.query.status;
-        const email = req.query.email;
-        const tokenEmail = req.user.email;
-        console.log("eeeeeeeeeemail", tokenEmail);
+    app.get("/api/v1/user/all-submitted-assignment", async (req, res) => {
+      const status = req.query.status;
+      const email = req.query.email;
+      // const tokenEmail = req.user.email;
+      // console.log("eeeeeeeeeemail", tokenEmail);
 
-        // // check if user email and token email does not match
-        // if (email !== tokenEmail) {
-        //   return res.status(403).send({ message: "Forbidden access" });
-        // }
+      // // check if user email and token email does not match
+      // if (email !== tokenEmail) {
+      //   return res.status(403).send({ message: "Forbidden access" });
+      // }
 
-        let query = {};
-        console.log(email);
-        if (status === "pending") {
-          query.status = status;
-        }
-
-        if (email) {
-          query.examineeEmail = email;
-        }
-        const cursor = submittedAssignmentCollection.find(query);
-        const result = await cursor.toArray();
-        res.send(result);
+      let query = {};
+      // console.log(email);
+      if (status === "pending") {
+        query.status = status;
       }
-    );
+
+      if (email) {
+        query.examineeEmail = email;
+      }
+      const cursor = submittedAssignmentCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     // get all features
     app.get("/api/v1/features", async (req, res) => {
@@ -128,7 +134,7 @@ async function run() {
     });
 
     // get an assignment
-    app.get("/api/v1/all-assignments/:id", jwtVerifier, async (req, res) => {
+    app.get("/api/v1/all-assignments/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await allAssignmentCollection.findOne(query);
@@ -152,7 +158,7 @@ async function run() {
     // create an assignment
     app.post(
       "/api/v1/user/create-assignment",
-      jwtVerifier,
+
       async (req, res) => {
         const assignment = req.body;
         const result = await allAssignmentCollection.insertOne(assignment);
@@ -163,7 +169,7 @@ async function run() {
     // submitted a assignment
     app.post(
       "/api/v1/user/submitted-assignment",
-      jwtVerifier,
+
       async (req, res) => {
         const submittedAssignment = req.body;
         const result = await submittedAssignmentCollection.insertOne(
@@ -174,7 +180,7 @@ async function run() {
     );
 
     // update an assignment
-    app.put("/api/v1/all-assignments/:id", jwtVerifier, async (req, res) => {
+    app.put("/api/v1/all-assignments/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const updatedAssignment = req.body;
