@@ -2,7 +2,11 @@
 const express = require("express");
 const cors = require("cors");
 
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const e = require("express");
 require("dotenv").config();
 
 const app = express();
@@ -10,7 +14,13 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 
 // mongodb
 
@@ -24,6 +34,25 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
+// middlewares
+const logger = (req, res, next) => {
+  // console.log("logger Info", req.method, req.url);
+  next();
+};
+const verifyToken = (req, res, next) => {
+  const token = req?.cookies?.token;
+  if (!token) {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+  jwt.verify(token, process.env.SECRET, (error, decoded) => {
+    if (error) {
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+    req.user = decoded;
+    next();
+  });
+};
 
 async function run() {
   try {
@@ -41,7 +70,7 @@ async function run() {
 
     // get all assignments
     // filter by difficulty
-    app.get("/api/v1/all-assignments", async (req, res) => {
+    app.get("/api/v1/all-assignments", logger, async (req, res) => {
       const difficulty = req.query.difficulty;
       const email = req.query.email;
       let query = {};
@@ -69,39 +98,68 @@ async function run() {
       res.send({ result, countAssignment });
     });
 
-    // get all submitted assignment
-    app.get("/api/v1/user/all-submitted-assignment", async (req, res) => {
-      const status = req.query.status;
-      const email = req.query.email;
-      // const tokenEmail = req.user.email;
-      // console.log("eeeeeeeeeemail", tokenEmail);
-
-      // // check if user email and token email does not match
-      // if (email !== tokenEmail) {
-      //   return res.status(403).send({ message: "Forbidden access" });
-      // }
-
-      let query = {};
-      // console.log(email);
-      if (status === "pending") {
-        query.status = status;
-      }
-
-      if (email) {
-        query.examineeEmail = email;
-      }
-      const cursor = submittedAssignmentCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
+    // jwt-token
+    app.post("/api/v1/auth/jwt-token", async (req, res) => {
+      const user = req.body;
+      const token = jwt.sign(user, process.env.SECRET, { expiresIn: "1h" });
+      res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 3600000,
+          sameSite: "none",
+        })
+        .send({ success: true });
     });
+
+    app.post("/api/v1/user/logout", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      res.clearCookie("token", { maxAge: 0 }).send({ success: true });
+    });
+
+    // get all submitted assignment
+    app.get(
+      "/api/v1/user/all-submitted-assignment",
+      logger,
+      async (req, res) => {
+        const status = req.query.status;
+        const email = req.query.email;
+        // const tokenEmail = req.user.email;
+        // console.log(tokenEmail);
+        // console.log("eeeeeeeeeemail", tokenEmail);
+
+        // // check if user email and token email does not match
+        // if (email !== tokenEmail) {
+        //   return res.status(403).send({ message: "Forbidden access" });
+        // }
+
+        let query = {};
+        // console.log(email);
+        if (status === "pending") {
+          query.status = status;
+        }
+
+        if (email) {
+          query.examineeEmail = email;
+        }
+        const cursor = submittedAssignmentCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      }
+    );
 
     // get a submitted assignment
-    app.get("/api/v1/user/all-submitted-assignment/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await submittedAssignmentCollection.findOne(query);
-      res.send(result);
-    });
+    app.get(
+      "/api/v1/user/all-submitted-assignment/:id",
+      logger,
+      async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await submittedAssignmentCollection.findOne(query);
+        res.send(result);
+      }
+    );
 
     // get all features
     app.get("/api/v1/features", async (req, res) => {
@@ -125,28 +183,20 @@ async function run() {
     });
 
     // create an assignment
-    app.post(
-      "/api/v1/user/create-assignment",
-
-      async (req, res) => {
-        const assignment = req.body;
-        const result = await allAssignmentCollection.insertOne(assignment);
-        res.send(result);
-      }
-    );
+    app.post("/api/v1/user/create-assignment", logger, async (req, res) => {
+      const assignment = req.body;
+      const result = await allAssignmentCollection.insertOne(assignment);
+      res.send(result);
+    });
 
     // submitted a assignment
-    app.post(
-      "/api/v1/user/submitted-assignment",
-
-      async (req, res) => {
-        const submittedAssignment = req.body;
-        const result = await submittedAssignmentCollection.insertOne(
-          submittedAssignment
-        );
-        res.send(result);
-      }
-    );
+    app.post("/api/v1/user/submitted-assignment", async (req, res) => {
+      const submittedAssignment = req.body;
+      const result = await submittedAssignmentCollection.insertOne(
+        submittedAssignment
+      );
+      res.send(result);
+    });
 
     // update an assignment
     app.put("/api/v1/all-assignments/:id", async (req, res) => {
@@ -194,7 +244,7 @@ async function run() {
     });
 
     // delete assignment operation
-    app.delete("/api/v1/all-assignments/:id", async (req, res) => {
+    app.delete("/api/v1/all-assignments/:id", logger, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await allAssignmentCollection.deleteOne(query);
