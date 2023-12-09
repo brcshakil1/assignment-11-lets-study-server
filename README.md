@@ -1,5 +1,5 @@
-# Burj Al Arif Server
-This is ;ets study's server site.
+# Let's Study Server
+This is lets study's server site.
 
 ## Techonologies used
 - Express.js
