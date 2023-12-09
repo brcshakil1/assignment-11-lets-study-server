@@ -2,6 +2,6 @@
 This is ;ets study's server site.
 
 ## Techonologies used
-Express.js
-Node.js
-MongoDB database
+- Express.js
+- Node.js
+- MongoDB database
